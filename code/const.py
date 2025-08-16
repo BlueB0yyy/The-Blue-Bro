@@ -1,0 +1,10 @@
+
+
+# C
+COLOR_BLUE = (0,0,255)
+
+
+# W
+
+WINDOW_WIDTH = 576
+WINDOW_HEIGHT = 324
