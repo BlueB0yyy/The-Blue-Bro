@@ -11,6 +11,7 @@ class Game:
         print('Setup Start')
         pygame.init()
         self.window = pygame.display.set_mode(size = (WINDOW_WIDTH, WINDOW_HEIGHT))
+        pygame.display.set_caption("The Blue Bro")
         print('Setup end')
 
     def run(self):

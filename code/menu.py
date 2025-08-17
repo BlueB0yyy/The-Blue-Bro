@@ -21,6 +21,7 @@ class Menu:
             # atenção! Deve ser desenhado DEPOIS da tela (senão fica sobreposto)
             self.text_menu(70, "The Blue", COLOR_BLUE, (WINDOW_WIDTH / 2, 60))
             self.text_menu(70, "Bro", COLOR_BLUE, (WINDOW_WIDTH / 2, 100))
+            self.menu_char(40, (30, 300))
             pygame.display.flip()
 
             for event in pygame.event.get():
@@ -34,3 +35,10 @@ class Menu:
         text_surf: Surface = font.render(text, True, color)
         text_rect: Rect = text_surf.get_rect(center=pos)
         self.window.blit(source=text_surf, dest=text_rect)
+
+    def menu_char(self, size:int,pos: tuple):
+        char = pygame.image.load('./asset/Player/Ability_Use.png').convert_alpha()
+        rect = pygame.Rect(0, 0, 200, 128)
+        random_image = char.subsurface(rect)
+        self.window.blit(random_image, (0,0))
+
