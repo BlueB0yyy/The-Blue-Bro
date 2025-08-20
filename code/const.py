@@ -1,3 +1,4 @@
+from pygame.examples.grid import TILE_SIZE
 
 # B
 
@@ -13,6 +14,10 @@ COLOR_YELLOW = (255, 255, 128)
 COLOR_WHITE = (255, 255, 255)
 COLOR_GREEN = (0, 128, 0)
 COLOR_CYAN = (0, 128, 128)
+
+# L
+
+LEVEL_PLAYER = 2*TILE_SIZE #Ocupa 2 tiles
 
 # M
 
@@ -68,6 +73,8 @@ TILE_MAP = [ #36 (48 x 27) blocos na visão do jogador (15x48?)
     [],
     [],[],[]
 ]
+
+TILE_SIZE = 36
 
 #altura do personagem = 8cm
 #extensão do mapa = 10x número de tiles (atualmeente, 480)
