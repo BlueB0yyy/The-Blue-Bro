@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 import pygame
 
-from code.const import BG_WIDTH, BG_HEIGHT, BG_WIDTH, BG_HEIGHT
+from code.const import BG_WIDTH, BG_HEIGHT
+from code.level import Level
 from code.menu import Menu
 
 
@@ -23,3 +24,6 @@ class Game:
                     pygame.quit()
                     print('Encerrando')
                     quit()
+                case "Start Game":
+                    level = Level(self.window, 'Level1')
+                    level_return = level.run()

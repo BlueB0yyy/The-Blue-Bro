@@ -60,3 +60,14 @@ SPRITE_IMAGE_LIMIT = {
 }
 
 
+# T
+
+TILE_MAP = [ #36 (48 x 27) blocos na visão do jogador (15x48?)
+    [],
+    [],
+    [],
+    [],[],[]
+]
+
+#altura do personagem = 8cm
+#extensão do mapa = 10x número de tiles (atualmeente, 480)

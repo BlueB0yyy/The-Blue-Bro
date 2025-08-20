@@ -18,6 +18,8 @@ class Menu:
 
     def run(self, ):
         option = 0
+        pygame.mixer_music.load('./asset/Sound/Game/Tense.wav')
+        pygame.mixer_music.play(-1)
         player1 = Player('Player', (50,300), "Ability_Use")
         #Começa com o x da 1ª imagem
         x = SPRITE_COORDINATES[player1.name][player1.initial_image]["x"]
