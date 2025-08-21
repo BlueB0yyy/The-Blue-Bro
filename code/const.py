@@ -5,6 +5,10 @@ from pygame.examples.grid import TILE_SIZE
 # 1 = Enemy
 # 2 > = Tiles
 
+# Adicionar aspect ratio e resolução fixos pode ser mais interessante que ter ele fixo
+
+
+
 # B
 
 BG_WIDTH = 1728
@@ -34,6 +38,12 @@ MENU_OPTION = [
     "Options",
     "Exit"
     ]
+
+# R
+
+RESOLUTION = [
+    "1280x720",
+]
 
 # S
 
