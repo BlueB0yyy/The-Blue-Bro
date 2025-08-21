@@ -7,8 +7,9 @@ from code.entity import Entity
 
 
 class Player(Entity):
-    def __init__(self, name: str, position: tuple, initial_image: str):
-        super().__init__(name, position, initial_image)
+    def __init__(self, name: str, position: tuple, sprite_set: str):
+        super().__init__(name, position, sprite_set)
+
 
     def walk(self, ):
         pressed_key = pygame.key.get_pressed()
@@ -20,13 +21,13 @@ class Player(Entity):
 
     def jump(self, ):
         pass
+        #increase sprite (y)
 
     def punch(self, ):
         pass
 
-    def idle_animation(self, x, y, w, h, menu_rect):
-        sprite = pygame.Surface((w,h))
-        pygame.transform.scale(sprite, (1200, 20))
-        sprite.set_colorkey((0,0,0))
-        sprite.blit(self.surf, menu_rect, (x,y,w,h))
-        return sprite
+    # def idle_animation(self, x, y, w, h, menu_rect):
+    #     sprite = pygame.Surface((w,h))
+    #     sprite.set_colorkey((0,0,0))
+    #     #sprite.blit(self.surf, menu_rect, (x,y,w,h))
+    #     return sprite

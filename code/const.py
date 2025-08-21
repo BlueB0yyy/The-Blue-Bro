@@ -1,5 +1,10 @@
 from pygame.examples.grid import TILE_SIZE
 
+#tabela de referência de id_list
+# 0 = Player
+# 1 = Enemy
+# 2 > = Tiles
+
 # B
 
 BG_WIDTH = 1728
@@ -15,9 +20,11 @@ COLOR_WHITE = (255, 255, 255)
 COLOR_GREEN = (0, 128, 0)
 COLOR_CYAN = (0, 128, 128)
 
-# L
+# E
 
-LEVEL_PLAYER = 2*TILE_SIZE #Ocupa 2 tiles
+ENT_SIZE = [
+    2*TILE_SIZE, #Ocupa 2 tiles
+]
 
 # M
 
@@ -57,7 +64,7 @@ SPRITE_DIFFERENCE = {
     "Enemies": {}
 }
 
-SPRITE_IMAGE_LIMIT = {
+SPRITE_LIMIT = {
     "Player": {
         "Ability_Use": 1182
     },
