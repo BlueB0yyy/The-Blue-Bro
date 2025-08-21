@@ -3,3 +3,5 @@ https://www.youtube.com/watch?v=nXOVcOBqFwM
 https://www.youtube.com/watch?v=Xzmpl5tnJnc - resize
 
 https://www.youtube.com/watch?v=E5ef6didf5I - tilemap
+
+https://stackoverflow.com/questions/73348827/how-do-i-read-a-csv-file-for-a-tile-map-in-pygame - reading tilemap

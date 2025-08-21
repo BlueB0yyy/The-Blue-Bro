@@ -71,15 +71,7 @@ SPRITE_LIMIT = {
     "Enemies": {}
 }
 
-
 # T
-
-TILE_MAP = [ #36 (48 x 27) blocos na visão do jogador (15x48?)
-    [],
-    [],
-    [],
-    [],[],[]
-]
 
 TILE_SIZE = 36
 
