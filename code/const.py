@@ -1,13 +1,5 @@
 from pygame.examples.grid import TILE_SIZE
 
-#tabela de referência de id_list
-# 0 = Player
-# 1 = Enemy
-# 2 > = Tiles
-
-# Adicionar aspect ratio e resolução fixos pode ser mais interessante que ter ele fixo
-
-
 
 # B
 
@@ -39,11 +31,6 @@ MENU_OPTION = [
     "Exit"
     ]
 
-# R
-
-RESOLUTION = [
-    "1280x720",
-]
 
 # S
 
@@ -83,7 +70,8 @@ SPRITE_LIMIT = {
 
 # T
 
-TILE_SIZE = 36
+TILE_SIZE = 54
+#18 de altura, 32 de largura
 
 #altura do personagem = 8cm
 #extensão do mapa = 10x número de tiles (atualmeente, 480)

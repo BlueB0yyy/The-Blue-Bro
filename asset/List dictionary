@@ -1,0 +1,21 @@
+-2 - Air
+-1 - Player
+0 - Enemy
+1-96 - Tile
+97-100 - bench
+101-121 - bush
+122-130 - fence
+131 - fountain (animated)
+132-146 - grass
+147-152 - leaf
+153 - box
+154-155 - garbagecan
+156-157 - ladder
+158-160 - ramp
+161-164 - skate
+165-168 - tree
+169-174 - stone
+
+camera = 1728x972
+level_size = 17280x972
+

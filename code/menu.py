@@ -13,8 +13,9 @@ import time
 class Menu:
     def __init__(self, window):
         self.window = window
-        self.surf = pygame.transform.scale(pygame.image.load('./asset/Level/Background/Day/Background.png').convert_alpha(),(BG_WIDTH, BG_HEIGHT))
+        self.surf = pygame.transform.scale(pygame.image.load('./asset/Level1/Background/Day/Background.png').convert_alpha(),(BG_WIDTH, BG_HEIGHT))
         self.rect = self.surf.get_rect(left=0, top=0)
+        #self.rect.center = window.get_rect().center
 
     def run(self, ):
         option = 0
