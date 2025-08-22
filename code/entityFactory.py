@@ -20,9 +20,11 @@ class EntityFactory:
 
     @staticmethod
     def draw_level(tile_map, level):
+        entity_list = []
         for line in range(0,len(tile_map)):
             #print(tile_map[line])
             #print(line) 18 (de 0 a 17)
+            entity_list.append([])  #TESTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             for column in range(0,len(tile_map[line])):
                 print(column) #320 (de 0 a 319)
                 obj = tile_map[line][column]
@@ -32,7 +34,7 @@ class EntityFactory:
                 if column == 0: #enemy
                     pass
                 if 1 >= column <= 96:#tile
-                    Terrain(level, "Tile", column, (line*TILE_SIZE, column*TILE_SIZE))
+                    entity_list[line].append(Terrain(level, "Tile", column, (line*TILE_SIZE, column*TILE_SIZE))) #Adiciona um terreno na lista de entidades (TESTAR!!!!!!!!!!!!!!!!!!!)
                 if 97 >= column <= 100: #bench
                     pass
                 if 101 >= column <= 121: #bush
@@ -59,3 +61,4 @@ class EntityFactory:
                     pass
                 if 169 >= column <= 174: #stone
                     pass
+        return entity_list
