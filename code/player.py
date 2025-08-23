@@ -24,7 +24,8 @@ class Player(Entity):
         #increase sprite (y)
 
     def punch(self, ):
-        pass
+        self.load_frames()
+        #aplicar dano se o inimigo estiver na área
 
     # def idle_animation(self, x, y, w, h, menu_rect):
     #     sprite = pygame.Surface((w,h))

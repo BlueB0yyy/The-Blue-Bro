@@ -26,9 +26,9 @@ class EntityFactory:
             #print(line) 18 (de 0 a 17)
             entity_list.append([])  #TESTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             for column in range(0,len(tile_map[line])):
-                print(column) #320 (de 0 a 319)
+                #print(column) #320 (de 0 a 319)
                 obj = tile_map[line][column]
-                print(obj)
+                #print(obj)
                 if column == -1: #player
                     pass
                 if column == 0: #enemy
@@ -61,4 +61,5 @@ class EntityFactory:
                     pass
                 if 169 >= column <= 174: #stone
                     pass
+            print(entity_list)
         return entity_list
