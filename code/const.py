@@ -39,6 +39,10 @@ SPRITE_COORDINATES = {
         "Ability_Use":{
             "x": 31,
             "y": 69
+        },
+        "Casting Spell":{
+            "x":43,
+            "y":1
         }
     },
     "Enemies": {}
@@ -49,21 +53,27 @@ SPRITE_DIMENSIONS = {
         "Ability_Use":{
             "w": 56,
             "h": 58
+            },
+        "Casting Spell": {
+            "w": 30,
+            "h": 127
         }
-    },
+        },
     "Enemies": {}
 }
 
 SPRITE_DIFFERENCE = {
     "Player": {
-        "Ability_Use": 72
+        "Ability_Use": 72,
+        "Casting Spell":98
     },
     "Enemies": {}
 }
 
 SPRITE_LIMIT = {
     "Player": {
-        "Ability_Use": 1182
+        "Ability_Use": 1182,
+        "Casting Spell": 1227
     },
     "Enemies": {}
 }
