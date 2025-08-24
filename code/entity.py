@@ -35,6 +35,7 @@ class Entity(ABC):
 
         self.animations = {}
 
+        self.animacao_atual = None
         self.index = 0
         self.timer = 0
         self.cooldown = 100  # ms por frame
@@ -45,9 +46,8 @@ class Entity(ABC):
         for i in range(self.xy[0],self.sprite_limit,self.dimensions[0] + self.sprite_diff): # vai do 1º frame até o último
             frame_surface = pygame.Surface(self.dimensions,pygame.SRCALPHA).convert_alpha()
             frame_surface.set_colorkey((0, 0, 0))
-            print(i)
+            # print(i)
             frame_surface.blit(self.surf, outer_rect, (i, self.xy[1], self.dimensions[0],self.dimensions[1]))
-            #frame_surface.blit(self.surf, outer_rect,(player1.xy[0], player1.xy[1], player1.dimensions[0], player1.dimensions[1]))
             frames.append(frame_surface)
             frame_rect = frame_surface.get_rect(left=position[0], top=position[1])
             rects.append(frame_rect)
@@ -62,7 +62,10 @@ class Entity(ABC):
         self.timer += dt
         if self.timer >= self.cooldown:
             self.timer = 0
-            self.index = (self.index + 1) % len(self.animations[self.current_anim])
+            self.index = (self.index + 1) % len(self.animations[self.animacao_atual])
+
+    def get_frame(self):
+        return self.animations[self.animacao_atual][self.index]
 
     def walk(self, ):
         pass
