@@ -4,7 +4,7 @@ from abc import ABC
 
 import pygame
 
-from code.const import SPRITE_COORDINATES, SPRITE_DIMENSIONS, SPRITE_DIFFERENCE, SPRITE_LIMIT
+from code.const import SPRITE_COORDINATES, SPRITE_DIMENSIONS, SPRITE_DIFFERENCE, SPRITE_LIMIT, TILE_SIZE
 
 
 class Entity(ABC):
@@ -14,6 +14,10 @@ class Entity(ABC):
         self.surf = pygame.image.load("./asset/"+name+"/"+sprite_set+".png").convert_alpha() #1ª imagem
 
         self.rect = self.surf.get_rect(left=position[0], top=position[1]) #Onde vai ser desenhado (posição na tela)
+
+        self.mask = pygame.mask.from_surface(self.surf)
+
+        self.mask_image = self.mask.to_surface()
 
         self.sprite_set = sprite_set #Para alteração dependendo do botão pressionado
 
@@ -27,17 +31,38 @@ class Entity(ABC):
 
         self.frame_surface = []
 
-    def load_frames(self, outer_rect):
+        self.frame_surf_rect = []
+
+        self.animations = {}
+
+        self.index = 0
+        self.timer = 0
+        self.cooldown = 100  # ms por frame
+
+    def load_frames(self, outer_rect, position: tuple):
         frames = []
+        rects = []
         for i in range(self.xy[0],self.sprite_limit,self.dimensions[0] + self.sprite_diff): # vai do 1º frame até o último
-            frame_surface = pygame.Surface((self.dimensions[0], self.dimensions[1]))
+            frame_surface = pygame.Surface(self.dimensions,pygame.SRCALPHA).convert_alpha()
             frame_surface.set_colorkey((0, 0, 0))
             print(i)
             frame_surface.blit(self.surf, outer_rect, (i, self.xy[1], self.dimensions[0],self.dimensions[1]))
             #frame_surface.blit(self.surf, outer_rect,(player1.xy[0], player1.xy[1], player1.dimensions[0], player1.dimensions[1]))
             frames.append(frame_surface)
+            frame_rect = frame_surface.get_rect(left=position[0], top=position[1])
+            rects.append(frame_rect)
+        self.frame_surf_rect = rects
         self.frame_surface = frames
         return frames
-    
+
+    def set_animation(self, name, frames):
+        self.animations[name] = frames
+
+    def update(self, dt):
+        self.timer += dt
+        if self.timer >= self.cooldown:
+            self.timer = 0
+            self.index = (self.index + 1) % len(self.animations[self.current_anim])
+
     def walk(self, ):
         pass

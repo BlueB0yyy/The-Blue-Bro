@@ -5,7 +5,7 @@ from pygame import Surface, Rect
 from pygame.font import Font
 
 from code.const import BG_WIDTH, BG_HEIGHT, COLOR_BLUE, SPRITE_COORDINATES, SPRITE_DIMENSIONS, SPRITE_LIMIT, \
-    SPRITE_DIFFERENCE, MENU_CHAR, MENU_OPTION, COLOR_YELLOW, COLOR_WHITE
+    SPRITE_DIFFERENCE, MENU_CHAR, MENU_OPTION, COLOR_YELLOW, COLOR_WHITE, COLOR_RED, COLOR_GREEN
 from code.player import Player
 import time
 
@@ -22,28 +22,50 @@ class Menu:
         pygame.mixer_music.load('./asset/Sound/Game/Tense.wav')
         pygame.mixer_music.play(-1)
 
+        clock = pygame.time.Clock()
+
         # Inicializa o Player
         player1 = Player('Player', (50,300), "Ability_Use")
-        player_list = player1.load_frames(self.rect)
+        player_list = player1.load_frames(self.rect, (50, 300))
         player_index = 0
 
+        # bullet = pygame.Surface((10,10))
+        # bullet.fill(COLOR_RED)
+        # bullet_mask = pygame.mask.from_surface(bullet)
+
+        timer_animacao = 0
+        cooldown_animacao = 50
+
         while True:
+
+            delay = clock.tick(60)
+            timer_animacao += delay
+
+            #pos = pygame.mouse.get_pos()
+
             # metodo para desenhar a imagem do BG (vem da superfície e DESENHA no retângulo)
             self.window.blit(source=self.surf, dest=self.rect)
             # atenção! Deve ser desenhado DEPOIS da tela (senão fica sobreposto)
             self.text_menu(150, "The Blue", COLOR_BLUE, (BG_WIDTH / 4, 80))
             self.text_menu(150, "Bro", COLOR_BLUE, (BG_WIDTH / 4, 220))
 
-            print(player_list)
+            # if player1.mask.overlap(bullet_mask, (pos[0] - player1.rect.x, pos[1] - player1.rect.y)):
+            #     col = COLOR_RED
+            # else:
+            #     col = COLOR_GREEN
+
+
+            if timer_animacao >= cooldown_animacao:
+                timer_animacao = 0
+                player_index = (player_index+1) % len(player_list)
 
             # Aumenta o tamanho da imagem
             blue1 = pygame.transform.scale(player_list[player_index], (MENU_CHAR[0], MENU_CHAR[1]))
-            time.sleep(0.05)
-            if player_index > 7:
-                player_index = 0
-            else:
-                player_index += 1
+
             self.window.blit(source=blue1, dest=player1.rect)
+
+            # bullet.fill(col)
+            # self.window.blit(bullet,pos)
 
             for opt in range(len(MENU_OPTION)):
                 if opt == option:
