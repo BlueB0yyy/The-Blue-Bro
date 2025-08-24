@@ -23,35 +23,46 @@ class Level:
         pygame.mixer_music.load('./asset/Sound/Game/Menu.wav')
         pygame.mixer_music.play(-1)
 
+
+        #frame rate
         clock = pygame.time.Clock()
 
+        #Entidades e terrenos
         level_obj = EntityFactory.draw_level(self.tile_map, self.name)
         #print(len(level_obj))
 
+
+        #Carrega os objetos dentro do level_object
         for line in range(len(level_obj)):
             for column in range(len(level_obj[line])):
+
+                #Determina o objeto
                 obj = level_obj[line][column]
-                if isinstance(column, Entity):
+
+                #Se for entidade
+                if isinstance(obj, Entity):
                     self.entity_list.append(obj)
-                    print(self.entity_list)
+                    #print(self.entity_list)
+
+                #Se for terreno
                 elif isinstance(obj, Terrain):
                     self.tiles.append(obj)
-                    #print(self.tiles)
+                    # print(obj.rect)
+                    # print(obj.surf)
+
+                #Se for ar
                 else:
                     pass
 
-        player = None
-        print('teste')
-        print(len(self.entity_list))
+        # para cada entidade na lista de entidades (player, inimigo, etc)
         for ent_group in range(len(self.entity_list)):
-            print(self.entity_list[ent_group])
-            print('teste')
-            for ent in self.entity_list[ent_group]:
-                print(ent)
+            for ent in self.entity_list:
+
+                #Se for um Player
                 if isinstance(ent, Player):
                     player = ent
-                    print('teste')
-                    idle_frames = player.load_frames((50, 300))
+                    #Carrega os frames do player
+                    idle_frames = player.load_frames((50, 300),player.rect)
                     player.set_animation("idle", idle_frames)
 
         # for ent in range(len(self.entity_list)):
@@ -73,16 +84,14 @@ class Level:
 
             #print(len(self.tiles))
             for ls in range(len(self.tiles)):
-                for tile in range(ls):
-                    drawn_tile = self.tiles[ls]
-                    self.window.blit(drawn_tile.surf, drawn_tile.rect)
+                drawn_tile = self.tiles[ls]
+                #print(len(self.tiles))
+                self.window.blit(drawn_tile.surf, drawn_tile.rect)
 
-            for entity_l in range(len(self.entity_list)):
-                for entity in range(entity_l):
-                    ent = self.entity_list[entity_l]
-                    #print(ent)
-                    ent.update(dt)
-                    self.window.blit(ent.get_frame(), ent.rect)
+            for entity in self.entity_list:
+                #print(ent)
+                entity.update(dt)
+                self.window.blit(entity.get_frame(), entity.rect)
 
             # self.window.blit(source=ent_list[index_animation],dest = ent_list.rect)
 

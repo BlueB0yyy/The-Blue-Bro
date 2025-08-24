@@ -26,7 +26,7 @@ class Menu:
 
         # Inicializa o Player
         player1 = Player('Player', (50,300), "Ability_Use")
-        player_list = player1.load_frames(self.rect, (50, 300))
+        player_list = player1.load_menu(self.rect)
         player_index = 0
 
         # bullet = pygame.Surface((10,10))

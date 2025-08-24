@@ -52,7 +52,7 @@ class EntityFactory:
                 if 1 <= obj <= 96:#tile
                     #print(column)
                     entity_list[column].append(Terrain(level, "Tile", obj, (line*TILE_SIZE, column*TILE_SIZE))) #Adiciona um terreno na lista de entidades (TESTAR!!!!!!!!!!!!!!!!!!!)
-                    #print(column * TILE_SIZE)
+                    # print(entity_list[column][line].surf)
                 if 97 >= obj <= 100: #bench
                     pass
                 if 101 >= obj <= 121: #bush
