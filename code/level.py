@@ -54,31 +54,25 @@ class Level:
                 else:
                     pass
 
-        # para cada entidade na lista de entidades (player, inimigo, etc)
-        for ent_group in range(len(self.entity_list)):
-            for ent in self.entity_list:
-
-                #Se for um Player
-                if isinstance(ent, Player):
-                    player = ent
-                    #Carrega os frames do player
-                    idle_frames = player.load_frames((50, 300),player.rect)
-                    player.set_animation("idle", idle_frames)
-
-        # for ent in range(len(self.entity_list)):
-        #     for element in range(len(self.entity_list[ent])):
-        #         entity = self.entity_list[ent][element]
-        #         if isinstance(entity, Player):
-        #             ent_list = entity.load_frames(entity.rect, (50, 300))
-        #             # self.window.blit(source=ent_list[index_animation],
-        #             #dest = entity.rect)
-        #         else:
-        #             self.window.blit(source=self.entity_list[ent][element].surf,
-        #                              dest=self.entity_list[ent][element].rect)
+        player_index = 0
+        enemy_index = 0
+        timer_animacao = 0
+        cooldown_animacao = 150
+        sent=True
+        anda = False
+        pula = False
 
         while True:
 
-            dt = clock.tick(60)  # delta time
+            delay = clock.tick(60)
+            timer_animacao += delay
+
+            if timer_animacao >= cooldown_animacao:
+                 timer_animacao = 0
+                 if sent:
+                    player_index += 1
+                 else:
+                    player_index -= 1
 
             self.window.fill((0, 0, 0))
 
@@ -88,12 +82,23 @@ class Level:
                 #print(len(self.tiles))
                 self.window.blit(drawn_tile.surf, drawn_tile.rect)
 
-            for entity in self.entity_list:
-                #print(ent)
-                entity.update(dt)
-                self.window.blit(entity.get_frame(), entity.rect)
 
-            # self.window.blit(source=ent_list[index_animation],dest = ent_list.rect)
+            for ent in self.entity_list:
+                if isinstance(ent,Player):
+                    anda = ent.walk()
+                    pula = ent.jump()
+                    ent.apply_gravity(self.tiles)
+                    if anda:
+                        player_index = 0
+                        player_index = ent.upd(ent.name, ent.position, "Walk", player_index)
+                    if pula:
+                        player_index = 0
+                        player_index = ent.upd(ent.name,ent.position,"Jump",player_index)
+                    else:
+                        player_index = ent.upd(ent.name, ent.position, ent.sprite, player_index)
+                else:
+                    enemy_index = ent.upd(ent.name,ent.position,ent.sprite,enemy_index)
+                self.window.blit(source=ent.surf,dest = ent.rect)
 
             pygame.display.flip()
 
@@ -102,3 +107,4 @@ class Level:
                     pygame.quit()
                     print('Encerrando')
                     quit()
+
