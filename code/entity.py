@@ -16,10 +16,7 @@ class Entity(ABC):
 
         self.position = position
 
-        self.surfs = [pygame.image.load(f"./asset/{name}/{sprite}/{i}.png").convert_alpha() for i in range(3)]
-
         self.quant_sprites = len(os.listdir(f"./asset/{name}/{sprite}"))
-        print(self.quant_sprites)
 
         self.surf = pygame.image.load("./asset/"+name+"/"+sprite+"/"+str(seq)+".png").convert_alpha() #1ª imagem
 
@@ -55,12 +52,18 @@ class Entity(ABC):
 
         self.position = position
 
-        self.surfs = [pygame.image.load(f"./asset/{name}/{sprite}/{i}.png").convert_alpha() for i in range(3)]
-
         self.quant_sprites = len(os.listdir(f"./asset/{name}/{sprite}"))
+
+        if seq < 0:
+            seq = 0
+        elif seq >= self.quant_sprites:
+            seq = self.quant_sprites - 1
 
         self.surf = pygame.image.load(
             "./asset/" + name + "/" + sprite + "/" + str(seq) + ".png").convert_alpha()  # 1ª imagem
+
+        if not getattr(self, "facing_right", True):
+            self.surf = pygame.transform.flip(self.surf, True, False)
 
         return seq
 

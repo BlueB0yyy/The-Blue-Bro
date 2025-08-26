@@ -32,6 +32,10 @@ MENU_OPTION = [
     "Exit"
     ]
 
+# P
+
+PLAYER_SPEED = 8
+
 # T
 
 TILE_SIZE = 54

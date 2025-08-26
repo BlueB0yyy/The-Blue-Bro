@@ -46,7 +46,7 @@ class EntityFactory:
                 if obj == -2: #ar
                     entity_list[column].append('air')
                 if obj == -1: #player
-                    entity_list[column].append(Player("Player", (line*TILE_SIZE, column*TILE_SIZE), "Idle",0))
+                    entity_list[column].append(Player("Player", (line*TILE_SIZE, column*TILE_SIZE-100), "Idle",0))
                 if obj == 0: #enemy
                     pass
                 if 1 <= obj <= 96:#tile
