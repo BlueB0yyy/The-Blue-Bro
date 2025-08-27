@@ -50,7 +50,8 @@ class Entity(ABC):
         self.vel_y = 0  #
         self.on_ground = False
 
-
+        # CRIAR NO CONST
+        self.health = ENTITY_HEALTH[self.name]
 
 
     def upd(self, name: str, position: tuple, sprite:str, tipo: str, delay: int):
@@ -103,7 +104,7 @@ class Entity(ABC):
             self.surf = pygame.transform.flip(self.surf, True, False)
 
     def apply_gravity(self, tiles):
-        # aplica gravidade sempre
+        # aplica gravidade sempre (valor
         self.vel_y += self.gravity # Empurra o jogador pra baixo
         self.rect.y += self.vel_y #Cola o rect nessa velocidade
 
