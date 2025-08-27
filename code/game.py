@@ -27,4 +27,7 @@ class Game:
                 case "Start Game":
                     level = Level(self.window, 'Level1')
                     level_return = level.run()
+case "Score"
+pass # implementar score com base no tempo
+
 
