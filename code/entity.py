@@ -5,20 +5,38 @@ from abc import ABC
 
 import pygame
 
+from code.const import BG_WIDTH, BG_HEIGHT
+
 
 class Entity(ABC):
-    def __init__(self, name: str, position: tuple, sprite:str, seq:int):
+    def __init__(self, name: str, position: tuple, sprite:str, index:int, tipo: str):
         # nome da entidade
         self.name = name
 
         #Conjunto de sprites (string)
         self.sprite = sprite
 
+        # Posição na tela
         self.position = position
 
-        self.quant_sprites = len(os.listdir(f"./asset/{name}/{sprite}"))
+        # Índice da animação
+        self.index = index
 
-        self.surf = pygame.image.load("./asset/"+name+"/"+sprite+"/"+str(seq)+".png").convert_alpha() #1ª imagem
+        # Quantidade de sprites (para determinar limte das animações
+        self.quant_sprites = len(os.listdir(f"./asset/{name}/{tipo}/{sprite}"))
+        if name == 'Level1':
+            self.quant_sprites -= 1
+
+        # Superfície da animação atual
+
+        self.frames = []
+        for image in range(self.quant_sprites):
+            self.frames.append(pygame.image.load(f"./asset/{name}/{tipo}/{sprite}/{image}.png").convert_alpha())
+
+        self.surf = pygame.image.load(f"./asset/{name}/{tipo}/{sprite}/{str(self.index)}.png").convert_alpha()  # 1ª imagem
+
+        if name == 'Level1':
+            self.surf = pygame.transform.scale(self.surf, (BG_WIDTH, BG_HEIGHT)) #Bg
 
         self.rect = self.surf.get_rect(left=position[0], top=position[1])
 
@@ -28,12 +46,19 @@ class Entity(ABC):
         self.cooldown = 120  # ms por frame
 
 
+        self.gravity = 1  # gravidade agindo sobre o jogador
+        self.vel_y = 0  #
+        self.on_ground = False
 
 
-    def upd(self, name: str, position: tuple, sprite:str, seq: int):
+
+
+    def upd(self, name: str, position: tuple, sprite:str, tipo: str, delay: int):
         '''
         Atualiza todas as partes da entidade conforme uma ação seja executada (principalmente as animações de jogador\
         que poderão alterar conforme o botão apertado)
+        :param delay:
+        :param tipo:
         :param seq:
         :param sprite:
         :param name: Nome da entidade
@@ -42,8 +67,27 @@ class Entity(ABC):
         Só atualiza a entidade, não retorna nada
         '''
 
-        if seq > 3:
-            seq = 0
+        self.quant_sprites = len(os.listdir(f"./asset/{name}/{tipo}/{sprite}"))
+
+        self.timer += delay
+        if self.timer >= self.cooldown:
+            self.timer = 0
+            self.index += 1
+            self.index = self.index % self.quant_sprites
+            if self.index == self.quant_sprites:
+                self.index = 0
+
+
+
+        if self.animacao_atual != sprite:
+            self.animacao_atual = sprite
+            self.index = 0
+            self.frames = []
+            quant_sprites = len(os.listdir(f"./asset/{name}/{tipo}/{sprite}"))
+            for i in range(quant_sprites):
+                self.frames.append(pygame.image.load(f"./asset/{name}/{tipo}/{sprite}/{i}.png").convert_alpha())
+
+        self.surf = self.frames[self.index]
 
         self.name = name
 
@@ -52,22 +96,27 @@ class Entity(ABC):
 
         self.position = position
 
-        self.quant_sprites = len(os.listdir(f"./asset/{name}/{sprite}"))
-
-        if seq < 0:
-            seq = 0
-        elif seq >= self.quant_sprites:
-            seq = self.quant_sprites - 1
-
-        self.surf = pygame.image.load(
-            "./asset/" + name + "/" + sprite + "/" + str(seq) + ".png").convert_alpha()  # 1ª imagem
+        if name == 'Level1':
+            self.surf = pygame.transform.scale(self.surf, (BG_WIDTH, BG_HEIGHT)) #Bg
 
         if not getattr(self, "facing_right", True):
             self.surf = pygame.transform.flip(self.surf, True, False)
 
-        return seq
+    def apply_gravity(self, tiles):
+        # aplica gravidade sempre
+        self.vel_y += self.gravity # Empurra o jogador pra baixo
+        self.rect.y += self.vel_y #Cola o rect nessa velocidade
 
-    def walk(self, ):
-        pass
+        self.on_ground = False
 
+        for tile in tiles:
+            if self.rect.colliderect(tile.rect):
+                if self.vel_y > 0 and self.rect.bottom <= tile.rect.bottom:
+                    if self.vel_y > 0:  # caindo
+                        self.rect.bottom = tile.rect.top
+                        self.vel_y = 0
+                        self.on_ground = True
+                    elif self.vel_y < 0:  # batendo a cabeça
+                        self.rect.top = tile.rect.bottom
+                        self.vel_y = 0
 

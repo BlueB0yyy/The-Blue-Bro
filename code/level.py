@@ -3,8 +3,11 @@
 import pygame
 
 from code.Camera import Camera
+from code.const import TILE_SIZE
+from code.enemy import Enemy
 from code.entity import Entity
 from code.entityFactory import EntityFactory
+from code.entityMediator import EntityMediator
 from code.player import Player
 from code.terrain import Terrain
 
@@ -17,6 +20,7 @@ class Level:
         self.entity_list: list[Entity] = [] #lista de ENTIDADES
         self.tiles: list[Terrain] = [] #lista de TERRENOS
         self.tile_map = EntityFactory.load_level(self.name)  #lista de INDEX de elementos
+        self.bg = EntityFactory.create_bg(self.name)
 
         #print(self.entity_list)
 
@@ -41,7 +45,7 @@ class Level:
                 obj = level_obj[line][column]
 
                 #Se for entidade
-                if isinstance(obj, Entity):
+                if isinstance(obj, Entity) and obj.name != 'Level1':
                     self.entity_list.append(obj)
                     #print(self.entity_list)
 
@@ -55,23 +59,24 @@ class Level:
                 else:
                     pass
 
-        player_index = 0
-        enemy_index = 0
         timer_animacao = 0
         cooldown_animacao = 150
 
+        acao = None
+
         # Da Camera
-        map_width = len(level_obj[0]) * 64  # supondo tiles 64px
-        map_height = len(level_obj) * 64
+        map_width = len(level_obj[0]) * TILE_SIZE
+        map_height = len(level_obj) * TILE_SIZE
         camera = Camera(map_width, map_height)  # tamanho do cenário inteiro
 
         while True:
             # Considera carregamento a cada 60 ticks
             delay = clock.tick(60)
-            timer_animacao += delay
-
 
             self.window.fill((0, 0, 0))
+
+            for img in self.bg:
+                img.draw(self.window, camera)
 
             # #print(len(self.tiles))
             # for ls in range(len(self.tiles)):
@@ -106,28 +111,37 @@ class Level:
                         sprite_set = "Idle"
 
 
-                    if timer_animacao >= cooldown_animacao:
-                        timer_animacao = 0
-                        player_index += 1
-
-                        # controla o ping-pong
-                        if player_index >= ent.quant_sprites :  # último frame do arquivo
-                            player_index = 0
-                    player_index = ent.upd(ent.name, ent.position, sprite_set, player_index)
+                    ent.upd(ent.name, ent.position, sprite_set, "Blue", delay)
 
                     # atualiza câmera no player
-                    camera.update(ent.rect)
-                else:
-                    enemy_index = ent.upd(ent.name,ent.position,ent.sprite,enemy_index)
+                    dx = camera.update(ent.rect)
+
+                    dx_player = ent.rect.x - ent.prev_x
+
+                    for img in self.bg:
+                        img.move(dx * 0.3)
+
+                elif isinstance(ent, Enemy):
+                    e_walk = ent.walk()
+                    if e_walk:
+                        e_sprite_set = 'Walk'
+                    else:
+                        e_sprite_set = "Idle"
+                    ent.upd(ent.name,ent.position,e_sprite_set, "Skeleton", delay)
             # desenha tiles
             for tile in self.tiles:
+                #Aplica o movimento de câmera aos tiles
                 self.window.blit(tile.surf, camera.apply(tile.rect))
 
             # desenha entidades
             for ent in self.entity_list:
+                #Aplica o movimento de câmera às entidades
                 self.window.blit(ent.surf, camera.apply(ent.rect))
 
             pygame.display.flip()
+
+            EntityMediator.verify_collision(entity_list=self.entity_list)
+            EntityMediator.verify_health(entity_list=self.entity_list)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

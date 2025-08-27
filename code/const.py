@@ -6,6 +6,15 @@ from pygame.examples.grid import TILE_SIZE
 BG_WIDTH = 1728
 BG_HEIGHT = 972
 
+# Definido só caso queira alterar futuramente (poderia ser só a seq da classe)
+BG_SPEED = {
+    0: 0,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4
+}
+
 
 
 # C

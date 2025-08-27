@@ -25,7 +25,7 @@ class Menu:
 
         # Inicializa o Player
         player_index = 0
-        player1 = Player('Player', (50,300), "Idle", player_index)
+        player1 = Player('Player', (50,300), "Idle", player_index, 'Blue')
 
 
         timer_animacao = 0
@@ -45,16 +45,8 @@ class Menu:
             self.text_menu(150, "The Blue", COLOR_BLUE, (BG_WIDTH / 4, 80))
             self.text_menu(150, "Bro", COLOR_BLUE, (BG_WIDTH / 4, 220))
 
-
-            if timer_animacao >= cooldown_animacao:
-                 timer_animacao = 0
-                 if sent:
-                    player_index += 1
-                 else:
-                    player_index -= 1
-
             # Aumenta o tamanho da imagem
-            player_index = player1.upd('Player', (50,300), "Idle", player_index)
+            player1.upd('Player', (50,300), "Idle", "Blue", delay)
             blue1 = pygame.transform.scale(player1.surf, (MENU_CHAR[0], MENU_CHAR[1]))
 
             self.window.blit(source=blue1, dest=player1.rect)
