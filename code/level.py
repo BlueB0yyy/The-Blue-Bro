@@ -20,7 +20,7 @@ class Level:
         self.entity_list: list[Entity] = [] #lista de ENTIDADES
         self.tiles: list[Terrain] = [] #lista de TERRENOS
         self.tile_map = EntityFactory.load_level(self.name)  #lista de INDEX de elementos
-        self.bg = EntityFactory.create_bg(self.name)
+        self.bg = EntityFactory.create_bg(self.name) #Criação do Bg
 
         #print(self.entity_list)
 
@@ -59,14 +59,9 @@ class Level:
                 else:
                     pass
 
-        timer_animacao = 0
-        cooldown_animacao = 150
-
-        acao = None
-
         # Da Camera
-        map_width = len(level_obj[0]) * TILE_SIZE
-        map_height = len(level_obj) * TILE_SIZE
+        map_width = len(level_obj[0]) * TILE_SIZE #Largura apenas de uma das linhas
+        map_height = len(level_obj) * TILE_SIZE #Altura do total
         camera = Camera(map_width, map_height)  # tamanho do cenário inteiro
 
         while True:
@@ -75,6 +70,7 @@ class Level:
 
             self.window.fill((0, 0, 0))
 
+            #Desenho de imagens de fundo
             for img in self.bg:
                 img.draw(self.window, camera)
 
@@ -89,16 +85,16 @@ class Level:
 
                 #Métodos do player
                 if isinstance(ent,Player):
+                    
+                    #Alterar aplicação para keys no level???????????????????????????????????????????????????????????????????????????? (final do arquivo)
                     pressed = pygame.key.get_pressed()
                     anda = ent.walk(map_width)
                     ent.jump()
                     soco = ent.punch()
                     ent.apply_gravity(self.tiles)
 
-                    last_action = None
-
                     #VFerifica qual animação tocar
-                    if not ent.on_ground:
+                    if not ent.on_ground: #Se o personagem não estiver no chão (caindo? Considerar)
                         sprite_set = "Jump"
                     elif anda:
                         if pressed == pygame.K_SPACE:
@@ -110,7 +106,7 @@ class Level:
                     else:
                         sprite_set = "Idle"
 
-
+                    #Update do player
                     ent.upd(ent.name, ent.position, sprite_set, "Blue", delay)
 
                     # atualiza câmera no player
@@ -118,16 +114,23 @@ class Level:
 
                     dx_player = ent.rect.x - ent.prev_x
 
+                    #Parallax (TODO fix parallax aqui)
                     for img in self.bg:
                         img.move(dx * 0.3)
 
                 elif isinstance(ent, Enemy):
+                    #Caminhada do inimigo (TODO implementar ou com range ou com detecção de cenário)
                     e_walk = ent.walk()
+
+                    #Animação sendo tocada
                     if e_walk:
                         e_sprite_set = 'Walk'
                     else:
                         e_sprite_set = "Idle"
+
+                    #Update do Enemy
                     ent.upd(ent.name,ent.position,e_sprite_set, "Skeleton", delay)
+                    
             # desenha tiles
             for tile in self.tiles:
                 #Aplica o movimento de câmera aos tiles
@@ -140,6 +143,7 @@ class Level:
 
             pygame.display.flip()
 
+            #Verificador de colisões entre entidades (TODO fazer funfar)
             EntityMediator.verify_collision(entity_list=self.entity_list)
             EntityMediator.verify_health(entity_list=self.entity_list)
 
