@@ -4,10 +4,13 @@ from code.entity import Entity
 
 class EntityMediator:
 
+    # Verificar se caiu do mapa
     @staticmethod
     def __verify_collision_window(ent: Entity):
-        if isinstance(ent, Enemy):
-            if ent.rect.right <= 0:
+        # Se for Player ou Enemy
+        if isinstance(ent, Enemy) or isinstance (ent, Player):
+            # se o topo do rect for maior que a janela
+            if ent.rect.top >= BG_HEIGHT:
                 ent.health = 0
 
     @staticmethod
