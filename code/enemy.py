@@ -14,9 +14,15 @@ class Enemy(Entity):
         self.start_x = position[0]
 
     def walk(self, ):
+        
+        # rect aumenta/diminui pelo speed pela direção (que pode ser negativa = andar pra trás)
         self.rect.x += self.speed * self.direction
 
         # verifica se saiu do range
         if abs(self.rect.x - self.start_x) > self.range:
+            # muda de direção 
             self.direction *= -1
+  
+        # testar com o enemy mais longe (tem que ser natural)
+        # adicionar detecção de player (?) (quando ver o player, bate) (opcional)
 
