@@ -5,16 +5,19 @@ from abc import ABC
 
 import pygame
 
-from code.const import BG_WIDTH, BG_HEIGHT
+from code.const import BG_WIDTH, BG_HEIGHT, ENTITY_HEALTH, ENTITY_DAMAGE, ENTITY_SCORE
 
 
 class Entity(ABC):
     def __init__(self, name: str, position: tuple, sprite:str, index:int, tipo: str):
         # nome da entidade
+        self.facing_right = None
         self.name = name
 
         #Conjunto de sprites (string)
         self.sprite = sprite
+
+        self.tipo = tipo
 
         # Posição na tela
         self.position = position
@@ -51,7 +54,10 @@ class Entity(ABC):
         self.on_ground = False
 
         # CRIAR NO CONST
+        self.score = ENTITY_SCORE[self.name]
         self.health = ENTITY_HEALTH[self.name]
+        self.damage = ENTITY_DAMAGE[self.name]
+        self.kill = None
 
 
     def upd(self, name: str, position: tuple, sprite:str, tipo: str, delay: int):
@@ -99,9 +105,10 @@ class Entity(ABC):
 
         if name == 'Level1':
             self.surf = pygame.transform.scale(self.surf, (BG_WIDTH, BG_HEIGHT)) #Bg
-
-        if not getattr(self, "facing_right", True):
-            self.surf = pygame.transform.flip(self.surf, True, False)
+            
+        if name != 'Level1':
+            if not self.facing_right:
+                self.surf = pygame.transform.flip(self.surf, True, False)
 
     def apply_gravity(self, tiles):
         # aplica gravidade sempre (valor

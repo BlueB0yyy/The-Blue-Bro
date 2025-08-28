@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import pygame
+from pygame import Surface, Rect
+from pygame.font import Font
 
 from code.Camera import Camera
-from code.const import TILE_SIZE
+from code.const import TILE_SIZE, COLOR_GREEN
 from code.enemy import Enemy
 from code.entity import Entity
 from code.entityFactory import EntityFactory
@@ -13,7 +15,7 @@ from code.terrain import Terrain
 
 
 class Level:
-    def __init__(self, window, name):
+    def __init__(self, window, name, score: int):
         self.window = window # janela (global)
         self.name = name # nome do nível
 
@@ -27,6 +29,8 @@ class Level:
     def run(self, ):
         pygame.mixer_music.load('./asset/Sound/Game/Menu.wav')
         pygame.mixer_music.play(-1)
+
+        time_start = pygame.time.get_ticks()
 
 
         #frame rate
@@ -68,6 +72,9 @@ class Level:
             # Considera carregamento a cada 60 ticks
             delay = clock.tick(60)
 
+            # todo melhorar tempo e incrementar no score
+            tempo = (pygame.time.get_ticks() - time_start)//1000
+
             self.window.fill((0, 0, 0))
 
             #Desenho de imagens de fundo
@@ -85,6 +92,8 @@ class Level:
 
                 #Métodos do player
                 if isinstance(ent,Player):
+
+                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score}{tempo}', COLOR_GREEN, (10, 25))
                     
                     #Alterar aplicação para keys no level???????????????????????????????????????????????????????????????????????????? (final do arquivo)
                     pressed = pygame.key.get_pressed()
@@ -116,7 +125,7 @@ class Level:
 
                     #Parallax (TODO fix parallax aqui)
                     for img in self.bg:
-                        img.move(dx * 0.3)
+                        img.move(dx_player)
 
                 elif isinstance(ent, Enemy):
                     #Caminhada do inimigo (TODO implementar ou com range ou com detecção de cenário)
@@ -126,10 +135,10 @@ class Level:
                     if e_walk:
                         e_sprite_set = 'Walk'
                     else:
-                        e_sprite_set = "Idle"
+                        e_sprite_set = "Walk"
 
                     #Update do Enemy
-                    ent.upd(ent.name,ent.position,e_sprite_set, "Skeleton", delay)
+                    ent.upd(ent.name,ent.position,e_sprite_set, ent.tipo, delay)
                     
             # desenha tiles
             for tile in self.tiles:
@@ -152,4 +161,10 @@ class Level:
                     pygame.quit()
                     print('Encerrando')
                     quit()
+
+    def text_level(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
+        text_font: Font = pygame.font.SysFont(name="Comic Sans", size=text_size)
+        text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
+        text_rect: Rect = text_surf.get_rect(left=text_pos[0], top=text_pos[1])
+        self.window.blit(source=text_surf, dest=text_rect)
 

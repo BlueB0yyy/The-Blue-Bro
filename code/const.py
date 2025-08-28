@@ -28,6 +28,24 @@ COLOR_RED = (255,0,0)
 
 # E
 
+ENTITY_HEALTH = {
+    "Player": 100,
+    "Enemy": 50,
+    "Level1": 1000000
+}
+
+ENTITY_DAMAGE = {
+    "Player": 100,
+    "Enemy": 30,
+    "Level1": 0
+}
+
+ENTITY_SCORE = {
+    "Player": 0,
+    "Enemy": 10,
+    "Level1": 0
+}
+
 ENT_SIZE = [
     2*TILE_SIZE, #Ocupa 2 tiles
 ]
@@ -37,7 +55,7 @@ ENT_SIZE = [
 MENU_CHAR = (600, 675)
 MENU_OPTION = [
     "Start Game",
-    "Options",
+    "Score",
     "Exit"
     ]
 

@@ -5,9 +5,8 @@ from code.entity import Entity
 
 
 class Enemy(Entity):
-    def __init__(self, name: str, position: tuple, sprite: str, seq: int, tipo):
+    def __init__(self, name: str, position: tuple, sprite: str, seq: int, tipo: str):
         super().__init__(name, position, sprite, seq, tipo)
-        self.type = type
         self.direction = 1  # 1 = direita, -1 = esquerda
         self.speed = 2
         self.range = 100  # quanto pode andar
@@ -22,6 +21,8 @@ class Enemy(Entity):
         if abs(self.rect.x - self.start_x) > self.range:
             # muda de direção 
             self.direction *= -1
+            self.facing_right = False
+        self.facing_right = self.direction > 0
   
         # testar com o enemy mais longe (tem que ser natural)
         # adicionar detecção de player (?) (quando ver o player, bate) (opcional)

@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 import pygame
 
+from code import score
 from code.const import BG_WIDTH, BG_HEIGHT
 from code.level import Level
 from code.menu import Menu
+from code.score import Score
 
 
 class Game:
@@ -17,6 +19,7 @@ class Game:
 
     def run(self):
         while True:
+            score = Score(self.window)
             menu = Menu(self.window)
             menu_return = menu.run()
             match menu_return:
@@ -25,9 +28,9 @@ class Game:
                     print('Encerrando')
                     quit()
                 case "Start Game":
-                    level = Level(self.window, 'Level1')
+                    level = Level(self.window, 'Level1', score)
                     level_return = level.run()
-case "Score"
-pass # implementar score com base no tempo
+                case "Score":
+                    score.show() # implementar score com base no tempo
 
 

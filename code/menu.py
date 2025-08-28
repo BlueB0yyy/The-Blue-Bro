@@ -19,25 +19,21 @@ class Menu:
     def run(self, ):
         option = 0
         pygame.mixer_music.load('./asset/Sound/Game/Tense.wav')
+        pygame.mixer_music.set_volume(0.2)
         pygame.mixer_music.play(-1)
 
         clock = pygame.time.Clock()
 
         # Inicializa o Player
-        player_index = 0
-        player1 = Player('Player', (50,300), "Idle", player_index, 'Blue')
+        player1 = Player('Player', (50,300), "Idle", 0, 'Blue')
 
-
+        # inicializa o timer
         timer_animacao = 0
-        cooldown_animacao = 150
-        sent = True
 
         while True:
 
             delay = clock.tick(60)
             timer_animacao += delay
-
-            #pos = pygame.mouse.get_pos()
 
             # metodo para desenhar a imagem do BG (vem da superfície e DESENHA no retângulo)
             self.window.blit(source=self.surf, dest=self.rect)

@@ -9,6 +9,7 @@ from code.enemy import Enemy
 from code.player import Player
 from code.terrain import Terrain
 
+from random import choice
 
 class EntityFactory:
 
@@ -35,6 +36,7 @@ class EntityFactory:
         :param level: De qual nível carregar tiles
         :return: Lista de todas as entidades (air seria espaço vazio - usa pass depois)
         '''
+        enemy_list = ["Plant", "Skeleton"]
         entity_list = []
         #print(len(tile_map))           18
         #print(len(tile_map[0]))            320
@@ -51,44 +53,11 @@ class EntityFactory:
                 if obj == -1: #player
                     entity_list[column].append(Player("Player", (line*TILE_SIZE, column*TILE_SIZE-100), "Idle",0, 'Blue'))
                 if obj == 0: #enemy
-                    entity_list[column].append(Enemy("Enemy", (line * TILE_SIZE, column * TILE_SIZE-85), "Walk", 0, "Skeleton"))
+                    entity_list[column].append(Enemy("Enemy", (line * TILE_SIZE, column * TILE_SIZE-85), "Walk", 0, choice(enemy_list)))
                 if 1 <= obj <= 96:#tile
                     #print(column)
                     entity_list[column].append(Terrain(level, "Tile", obj, (line*TILE_SIZE, column*TILE_SIZE))) #Adiciona um terreno na lista de entidades (TESTAR!!!!!!!!!!!!!!!!!!!)
                     # print(entity_list[column][line].surf)
-                if 97 >= obj <= 100: #bench
-                    pass
-                if 101 >= obj <= 121: #bush
-                    pass
-                if 122 >= obj <= 130: #fence
-                    pass
-                if obj == 131: #fountain
-                    pass
-                if 132 >= obj <= 146: #grass
-                    pass
-                if 147 >= obj <= 152: #leaf
-                    pass
-                if obj == 153: #box
-                    pass
-                if 154 >= obj <= 155: #garbage can
-                    pass
-                if 156 >= obj <= 157: #ladder
-                    pass
-                if 158 >= obj <= 160: #ramp
-                    pass
-                if 161 >= obj <= 164: #skate
-                    pass
-                if 165 >= obj <= 168: #tree
-                    pass
-                if 169 >= obj <= 174: #stone
-                    pass
-        # for line in entity_list:      18
-        #     print(line, end='\n')
-        #     for column in line
-        # print(len(entity_list))
-        # print(len(entity_list[0]))
-        # print(len(entity_list[0][0]))
-        # print(entity_list[0][0])
         return entity_list
 
 # O blit do cenário só precisa ocorrer 1 vez (pra terreno)
