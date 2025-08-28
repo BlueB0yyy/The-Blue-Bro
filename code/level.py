@@ -132,7 +132,12 @@ class Level:
                     # atualiza câmera no player
                     dx = camera.update(ent.rect)
 
+                    # Diferença no eixo X
                     dx_player = ent.rect.x - ent.prev_x
+                    print(f'rect_x = {ent.rect_x}')
+                    print(f'prev_x = {ent.prev_x}')
+                    print(f'dx_player' = {dx_player})
+                    
 
                     #Parallax (TODO fix parallax aqui)
                     for img in self.bg:
