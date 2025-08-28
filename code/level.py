@@ -73,7 +73,14 @@ class Level:
             delay = clock.tick(60)
 
             # todo melhorar tempo e incrementar no score
-            tempo = (pygame.time.get_ticks() - time_start)//1000
+            tempo = (pygame.time.get_ticks() - time_start)
+
+            # Armazenamento apenas para exibição (replicar na exibição do score depois)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            # (TESTAR!!!!!!!!!!!!!!)
+            ms = tempo // 10 #??????????????????
+            sec = tempo // 1000
+            min = sec // 60
+
 
             self.window.fill((0, 0, 0))
 
@@ -93,7 +100,11 @@ class Level:
                 #Métodos do player
                 if isinstance(ent,Player):
 
-                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score}{tempo}', COLOR_GREEN, (10, 25))
+
+                    # Todo fazer o tempo não contar score se o player tiver morrido (senão vira jogo de quem morre mais rápido)
+                    ent.score = f'{min}:{sec}:{ms}'
+
+                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score}', COLOR_GREEN, (10, 25))
                     
                     #Alterar aplicação para keys no level???????????????????????????????????????????????????????????????????????????? (final do arquivo)
                     pressed = pygame.key.get_pressed()
