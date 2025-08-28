@@ -21,17 +21,17 @@ class Score:
         name = ''
         while True:
             self.window.blit(source=self.surf, dest=self.rect)
-            self.score_text(48, 'YOU WIN!!', C_YELLOW, SCORE_POS['Title'])
+            self.score_text(48, 'YOU WIN!!', COLOR_YELLOW, SCORE_POS['Title'])
             text = "Enter Player name:"
             score = player_score
-            self.score_text(20, text, C_WHITE, )
+            self.score_text(20, text, COLOR_WHITE, )
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 elif event.type == KEYDOWN:
                     if event.key == K_RETURN and len(name) == 4:
-                        db_proxy.save({'name': name, 'score': score, 'date': get_formatted_date()})
+                        db_proxy.save({'name': name, 'time': score, 'date': get_formatted_date()})
                         self.show()
                         return
                     elif event.key == K_BACKSPACE:
@@ -39,7 +39,7 @@ class Score:
                     else:
                         if len(name) < 4:
                             name += event.unicode
-            self.score_text(20, name, C_WHITE, SCORE_POS['Name'])
+            self.score_text(20, name, COLOR_WHITE, SCORE_POS['Name'])
             pygame.display.flip()
             pass
 
@@ -47,8 +47,8 @@ class Score:
         pygame.mixer_music.load('./asset/Sound/Game/Score.wav')
         pygame.mixer_music.play(-1)
         self.window.blit(source=self.surf, dest=self.rect)
-        self.score_text(48, 'TOP 10 SCORE', C_YELLOW, SCORE_POS['Title'])
-        self.score_text(20, 'NAME     SCORE           DATE      ', C_YELLOW, SCORE_POS['Label'])
+        self.score_text(48, 'TOP 10 SCORE', COLOR_YELLOW, SCORE_POS['Title'])
+        self.score_text(20, 'NAME     SCORE           DATE      ', COLOR_YELLOW, SCORE_POS['Label'])
         db_proxy = DBProxy('DBScore')
         list_score = db_proxy.retrieve_top10()
         db_proxy.close()
