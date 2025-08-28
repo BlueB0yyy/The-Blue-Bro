@@ -146,6 +146,7 @@ class Level:
                 elif isinstance(ent, Enemy):
                     #Caminhada do inimigo (TODO implementar ou com range ou com detecção de cenário)
                     e_walk = ent.walk()
+                    ent.apply_gravity(self.tiles)
 
                     #Animação sendo tocada
                     if e_walk:
