@@ -8,14 +8,12 @@ BG_HEIGHT = 972
 
 # Definido só caso queira alterar futuramente (poderia ser só a seq da classe)
 BG_SPEED = {
-    0: 0,
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4
+    0: 0.1,
+    1: 0.3,
+    2: 0.6,
+    3: 0.8,
+    4: 1
 }
-
-
 
 # C
 COLOR_BLUE = (0,0,255)
@@ -36,7 +34,7 @@ ENTITY_HEALTH = {
 
 ENTITY_DAMAGE = {
     "Player": 100,
-    "Enemy": 30,
+    "Enemy": 100,
     "Level1": 0
 }
 
@@ -45,10 +43,6 @@ ENTITY_SCORE = {
     "Enemy": 10,
     "Level1": 0
 }
-
-ENT_SIZE = [
-    2*TILE_SIZE, #Ocupa 2 tiles
-]
 
 # M
 
@@ -62,6 +56,25 @@ MENU_OPTION = [
 # P
 
 PLAYER_SPEED = 8
+
+# S
+
+SCORE_POS = {'Title': (BG_WIDTH / 2, 100),
+             'EnterName': (BG_WIDTH / 2, 200),
+             'Label': (BG_WIDTH / 2, 200),
+             'Name': (BG_WIDTH / 2, 140),
+             0: (BG_WIDTH / 2, 240),
+             1: (BG_WIDTH / 2, 280),
+             2: (BG_WIDTH / 2, 320),
+             3: (BG_WIDTH / 2, 360),
+             4: (BG_WIDTH / 2, 190),
+             5: (BG_WIDTH / 2, 210),
+             6: (BG_WIDTH / 2, 230),
+             7: (BG_WIDTH / 2, 250),
+             8: (BG_WIDTH / 2, 270),
+             9: (BG_WIDTH / 2, 290),
+             }
+
 
 # T
 

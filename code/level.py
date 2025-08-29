@@ -5,17 +5,18 @@ from pygame import Surface, Rect
 from pygame.font import Font
 
 from code.Camera import Camera
-from code.const import TILE_SIZE, COLOR_GREEN
+from code.const import TILE_SIZE, COLOR_GREEN, BG_WIDTH
 from code.enemy import Enemy
 from code.entity import Entity
 from code.entityFactory import EntityFactory
 from code.entityMediator import EntityMediator
 from code.player import Player
+from code.score import Score
 from code.terrain import Terrain
 
 
 class Level:
-    def __init__(self, window, name, score: int):
+    def __init__(self, window, name):
         self.window = window # janela (global)
         self.name = name # nome do nível
 
@@ -26,11 +27,14 @@ class Level:
 
         #print(self.entity_list)
 
-    def run(self, ):
+    def run(self, score: list):
         pygame.mixer_music.load('./asset/Sound/Game/Menu.wav')
         pygame.mixer_music.play(-1)
 
-        time_start = pygame.time.get_ticks()
+        #tempo do jogo
+        game_time = 0
+        time_stop = False
+        time_controller = 0
 
 
         #frame rate
@@ -72,14 +76,19 @@ class Level:
             # Considera carregamento a cada 60 ticks
             delay = clock.tick(60)
 
-            # todo melhorar tempo e incrementar no score
-            tempo = (pygame.time.get_ticks() - time_start)
+            if time_stop:
+                time_controller += delay
+                print(time_controller)
+            else:
+                game_time += delay
 
-            # Armazenamento apenas para exibição (replicar na exibição do score depois)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            # (TESTAR!!!!!!!!!!!!!!)
-            ms = tempo // 10 #??????????????????
-            sec = tempo // 1000
-            min = sec // 60
+            if time_controller >= 10000:
+                time_stop = False
+
+            # Armazenamento apenas para exibição
+            ms  = (game_time % 1000) // 10
+            sec = (game_time // 1000) % 60
+            min = (game_time // 60000)
 
 
             self.window.fill((0, 0, 0))
@@ -100,11 +109,9 @@ class Level:
                 #Métodos do player
                 if isinstance(ent,Player):
 
+                    ent.score_show = f"{min:02}:{sec:02}:{ms:02}"
 
-                    # Todo fazer o tempo não contar score se o player tiver morrido (senão vira jogo de quem morre mais rápido)
-                    ent.score = f'{min}:{sec}:{ms}'
-
-                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score}', COLOR_GREEN, (10, 25))
+                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score_show}', COLOR_GREEN, (10, 25))
                     
                     #Alterar aplicação para keys no level???????????????????????????????????????????????????????????????????????????? (final do arquivo)
                     pressed = pygame.key.get_pressed()
@@ -131,20 +138,21 @@ class Level:
 
                     # atualiza câmera no player
                     dx = camera.update(ent.rect)
-
-                    # Diferença no eixo X
-                    dx_player = ent.rect.x - ent.prev_x
-                    print(f'rect_x = {ent.rect_x}')
-                    print(f'prev_x = {ent.prev_x}')
-                    print(f'dx_player' = {dx_player})
                     
 
-                    #Parallax (TODO fix parallax aqui)
+                    #Parallax
                     for img in self.bg:
-                        img.move(dx_player)
+                        img.move(dx)
+
+                    ent.score = game_time
+
+                    if ent.rect.x >= 12300:
+                        score[0] = ent.score
+                        return True
+
 
                 elif isinstance(ent, Enemy):
-                    #Caminhada do inimigo (TODO implementar ou com range ou com detecção de cenário)
+                    #Caminhada do inimigo
                     e_walk = ent.walk()
                     ent.apply_gravity(self.tiles)
 
@@ -169,15 +177,27 @@ class Level:
 
             pygame.display.flip()
 
-            #Verificador de colisões entre entidades (TODO fazer funfar)
+            #Verificador de colisões entre entidades
             EntityMediator.verify_collision(entity_list=self.entity_list)
-            EntityMediator.verify_health(entity_list=self.entity_list)
+            matou = EntityMediator.verify_health(entity_list=self.entity_list)
+
+            if matou:
+                time_stop = True
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     print('Encerrando')
                     quit()
+
+            found_player = False
+            for ent in self.entity_list:
+                if isinstance(ent, Player):
+                    found_player = True
+
+            if not found_player:
+                return False
+
 
     def text_level(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Comic Sans", size=text_size)

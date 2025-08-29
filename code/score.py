@@ -1,10 +1,12 @@
+import sys
 from datetime import datetime
 
 import pygame
-from pygame import Surface, Rect
+from pygame import Surface, Rect, KEYDOWN, K_RETURN, K_BACKSPACE, K_ESCAPE
 from pygame.font import Font
 
 from code.DBProxy import DBProxy
+from code.const import COLOR_YELLOW, COLOR_WHITE, SCORE_POS
 
 
 # Medido por tempo até chegar ao final (o que chegou mais rápido tem o maior score)
@@ -15,7 +17,7 @@ class Score:
         self.rect = self.surf.get_rect(left=0, top=0)
 
     def save(self, player_score: int):
-        pygame.mixer_music.load('./asset/Sound/Score.wav')
+        pygame.mixer_music.load('./asset/Sound/Game/Score.wav')
         pygame.mixer_music.play(-1)
         db_proxy = DBProxy('DBScore')
         name = ''
@@ -24,7 +26,7 @@ class Score:
             self.score_text(48, 'YOU WIN!!', COLOR_YELLOW, SCORE_POS['Title'])
             text = "Enter Player name:"
             score = player_score
-            self.score_text(20, text, COLOR_WHITE, )
+            self.score_text(60, text, COLOR_WHITE, SCORE_POS['EnterName'])
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -39,7 +41,7 @@ class Score:
                     else:
                         if len(name) < 4:
                             name += event.unicode
-            self.score_text(20, name, COLOR_WHITE, SCORE_POS['Name'])
+            self.score_text(60, name, COLOR_WHITE, SCORE_POS['Name'])
             pygame.display.flip()
             pass
 
@@ -47,15 +49,15 @@ class Score:
         pygame.mixer_music.load('./asset/Sound/Game/Score.wav')
         pygame.mixer_music.play(-1)
         self.window.blit(source=self.surf, dest=self.rect)
-        self.score_text(48, 'TOP 10 SCORE', COLOR_YELLOW, SCORE_POS['Title'])
-        self.score_text(20, 'NAME     SCORE           DATE      ', COLOR_YELLOW, SCORE_POS['Label'])
+        self.score_text(200, 'TOP 10 SCORE', COLOR_YELLOW, SCORE_POS['Title'])
+        self.score_text(80, 'NAME     SCORE           DATE      ', COLOR_YELLOW, SCORE_POS['Label'])
         db_proxy = DBProxy('DBScore')
         list_score = db_proxy.retrieve_top10()
         db_proxy.close()
 
         for player_score in list_score:
             id_, name, score, date = player_score
-            self.score_text(20, f'{name}     {score:05d}     {date}', C_YELLOW,
+            self.score_text(50, f'{name}                {score// 60000}:{score// 1000 % 60}:{score % 1000 // 10}                  {date}', COLOR_YELLOW,
                             SCORE_POS[list_score.index(player_score)])
         while True:
             for event in pygame.event.get():

@@ -22,12 +22,12 @@ class DBProxy:
 
     def save(self, score_dict: dict):
         #Inserir no DB
-        self.connection.execute('INSERT INTO dados (name, time, date) VALUES (:name, :time, :date)', score_dict)
+        self.connection.execute('INSERT INTO scores (name, time, date) VALUES (:name, :time, :date)', score_dict)
         self.connection.commit()
 
     def retrieve_top10(self) -> list:
         #Retorna o top 10 dos resultados (os mais rápidos)
-        return self.connection.execute('SELECT * FROM dados ORDER BY time DESC LIMIT 10').fetchall()
+        return self.connection.execute('SELECT * FROM scores ORDER BY time ASC LIMIT 10').fetchall()
 
     def close(self):
         #Fechar conexão com DB

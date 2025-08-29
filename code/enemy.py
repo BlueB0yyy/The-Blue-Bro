@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+from code.const import ENTITY_SCORE
 from code.entity import Entity
 
 

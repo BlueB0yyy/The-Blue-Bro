@@ -9,14 +9,17 @@ class Background(Entity):
         super().__init__(name, position, sprite, index, tipo)
 
     def move(self, dx):
-        self.rect.x += dx * BG_SPEED[self.index]
+        self.rect.x -= dx * BG_SPEED[self.index]
 
     def draw(self, surface, camera):
-        surface_width = surface.get_width()
-        x_pos = self.rect.x
-        #print(x_pos)
+        # largura total da tela (a janela)
+        screen_width = surface.get_width()
 
-        # desenha enquanto a imagem não cobre toda a tela
-        while x_pos < surface_width:
-            surface.blit(self.surf, (x_pos, self.rect.y))
-            x_pos += self.surf.get_width()
+        # posição inicial já considerando a câmera
+        start_x = - (camera.offset.x * BG_SPEED[self.index]) % BG_WIDTH
+
+        # desenha quantas cópias forem necessárias para cobrir a tela
+        x = start_x - BG_WIDTH
+        while x < screen_width:
+            surface.blit(self.surf, (x, self.rect.y))
+            x += BG_WIDTH

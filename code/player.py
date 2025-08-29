@@ -23,13 +23,13 @@ class Player(Entity):
         mult = 1
         if pressed_key[pygame.K_RIGHT] and self.rect.right < level_width: # Se apertar botão direito
             if pressed_key[pygame.K_SPACE]:
-                mult = 2
+                mult = 5
             self.rect.centerx += self.speed * mult #Aumenta centerx
             self.facing_right = True # Vira para a direita
             moved = True #moveu
         if pressed_key[pygame.K_LEFT] and self.rect.left > 0:
             if pressed_key[pygame.K_SPACE]:
-                mult = 2
+                mult = 10
             self.rect.centerx -= self.speed * mult
             self.facing_right = False
             moved = True
