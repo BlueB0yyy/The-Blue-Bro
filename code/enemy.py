@@ -21,7 +21,8 @@ class Enemy(Entity):
         if abs(self.rect.x - self.start_x) > self.range:
             # muda de direção 
             self.direction *= -1
-            self.facing_right = False
+
+        # Só para a direção
         self.facing_right = self.direction > 0
   
         # testar com o enemy mais longe (tem que ser natural)

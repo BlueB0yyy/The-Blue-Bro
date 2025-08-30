@@ -36,24 +36,27 @@ class EntityMediator:
 
         #Se tiver interação
         if valid_interaction:
+            # Se for player com enemy
             if isinstance(ent1, Player) and isinstance(ent2, Enemy):
+                #rect do player alinhado com rect do enemy
                 if (ent1.rect.right > ent2.rect.left and
                         ent1.rect.left < ent2.rect.right):
-                    # Pulo na cabeça
+                    # Pulo na cabeça (pela altura)
                     if (ent1.rect.bottom <= ent2.rect.top and
-                            getattr(ent1, "vel_y", 1) > 0):
+                            getattr(ent1, "vel_y", 0) > 0):
                         ent2.health -= ent1.damage
                         ent2.kill = ent1.name
                         ent1.vel_y = -20
                         return
-                    return
             elif isinstance(ent1, Enemy) and isinstance(ent2, Player):
-                if (ent2.rect.bottom <= ent1.rect.top
-                        and getattr(ent2, "vel_y", 1) > 0):
-                    ent1.health -= ent2.damage
-                    ent1.kill = ent2.name
-                    ent2.vel_y = -20
-                    return
+                if (ent2.rect.right > ent1.rect.left and
+                        ent2.rect.left < ent1.rect.right):
+                    if (ent2.rect.bottom <= ent1.rect.top
+                            and getattr(ent2, "vel_y", 0) > 0):
+                        ent1.health -= ent2.damage
+                        ent1.kill = ent2.name
+                        ent2.vel_y = -20
+                        return
 
                 # Caso contrário, colisão normal (ambos perdem vida)
             if (ent1.rect.right >= ent2.rect.left and
