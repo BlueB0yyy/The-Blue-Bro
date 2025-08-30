@@ -5,7 +5,7 @@ from pygame import Surface, Rect
 from pygame.font import Font
 
 from code.Camera import Camera
-from code.const import TILE_SIZE, COLOR_GREEN, BG_WIDTH
+from code.const import TILE_SIZE, COLOR_GREEN, BG_WIDTH, COLOR_WHITE
 from code.enemy import Enemy
 from code.entity import Entity
 from code.entityFactory import EntityFactory
@@ -76,12 +76,13 @@ class Level:
             # Considera carregamento a cada 60 ticks
             delay = clock.tick(60)
 
+            # se tiver matado um inimigo
             if time_stop:
                 time_controller += delay
-                print(time_controller)
             else:
                 game_time += delay
 
+            # se tiver passado 10s depois de matar um inimigo
             if time_controller >= 10000:
                 time_stop = False
 
@@ -109,9 +110,9 @@ class Level:
                 #Métodos do player
                 if isinstance(ent,Player):
 
+                    #exibição da vida
                     ent.score_show = f"{min:02}:{sec:02}:{ms:02}"
-
-                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score_show}', COLOR_GREEN, (10, 25))
+                    self.text_level(30, f'Player1 - Health: {ent.health} | Score: {ent.score_show}', COLOR_WHITE, (10, 25))
                     
                     #Alterar aplicação para keys no level???????????????????????????????????????????????????????????????????????????? (final do arquivo)
                     pressed = pygame.key.get_pressed()
@@ -146,7 +147,7 @@ class Level:
 
                     ent.score = game_time
 
-                    if ent.rect.x >= 12300:
+                    if ent.rect.x >= map_width-300:
                         score[0] = ent.score
                         return True
 

@@ -34,7 +34,7 @@ ENTITY_HEALTH = {
 
 ENTITY_DAMAGE = {
     "Player": 100,
-    "Enemy": 100,
+    "Enemy": 50,
     "Level1": 0
 }
 
@@ -63,16 +63,16 @@ SCORE_POS = {'Title': (BG_WIDTH / 2, 100),
              'EnterName': (BG_WIDTH / 2, 200),
              'Label': (BG_WIDTH / 2, 200),
              'Name': (BG_WIDTH / 2, 140),
-             0: (BG_WIDTH / 2, 240),
-             1: (BG_WIDTH / 2, 280),
-             2: (BG_WIDTH / 2, 320),
-             3: (BG_WIDTH / 2, 360),
-             4: (BG_WIDTH / 2, 190),
-             5: (BG_WIDTH / 2, 210),
-             6: (BG_WIDTH / 2, 230),
-             7: (BG_WIDTH / 2, 250),
-             8: (BG_WIDTH / 2, 270),
-             9: (BG_WIDTH / 2, 290),
+             0: (BG_WIDTH / 2, 250),
+             1: (BG_WIDTH / 2, 310),
+             2: (BG_WIDTH / 2, 390),
+             3: (BG_WIDTH / 2, 470),
+             4: (BG_WIDTH / 2, 550),
+             5: (BG_WIDTH / 2, 630),
+             6: (BG_WIDTH / 2, 690),
+             7: (BG_WIDTH / 2, 770),
+             8: (BG_WIDTH / 2, 850),
+             9: (BG_WIDTH / 2, 930),
              }
 
 

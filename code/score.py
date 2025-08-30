@@ -33,7 +33,7 @@ class Score:
                     sys.exit()
                 elif event.type == KEYDOWN:
                     if event.key == K_RETURN and len(name) == 4:
-                        db_proxy.save({'name': name, 'time': score, 'date': get_formatted_date()})
+                        db_proxy.save({'name': name.upper(), 'time': score, 'date': get_formatted_date()})
                         self.show()
                         return
                     elif event.key == K_BACKSPACE:
@@ -50,14 +50,14 @@ class Score:
         pygame.mixer_music.play(-1)
         self.window.blit(source=self.surf, dest=self.rect)
         self.score_text(200, 'TOP 10 SCORE', COLOR_YELLOW, SCORE_POS['Title'])
-        self.score_text(80, 'NAME     SCORE           DATE      ', COLOR_YELLOW, SCORE_POS['Label'])
+        self.score_text(80, 'NAME                 SCORE                         DATE      ', COLOR_YELLOW, SCORE_POS['Label'])
         db_proxy = DBProxy('DBScore')
         list_score = db_proxy.retrieve_top10()
         db_proxy.close()
 
         for player_score in list_score:
             id_, name, score, date = player_score
-            self.score_text(50, f'{name}                {score// 60000}:{score// 1000 % 60}:{score % 1000 // 10}                  {date}', COLOR_YELLOW,
+            self.score_text(50, f'{name:<10}                               {score// 60000:02}:{score// 1000 % 60:02}:{score % 1000 // 10:02}                                           {date}', COLOR_YELLOW,
                             SCORE_POS[list_score.index(player_score)])
         while True:
             for event in pygame.event.get():
